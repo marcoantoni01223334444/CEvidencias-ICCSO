@@ -1,0 +1,17 @@
+import pandas as pd							#Se importa la libreria pandas
+from sklearn.cross_validation import train_test_split				# Se importa la libreria  de scikit-learn
+from sklearn.linear_model import LinearRegression				# de scikit-learn se importa la libreria para la regresion lineal 
+import matplotlib.pyplot as plt						# importamos la libreria matplot para la graficacion
+
+dataset = pd.read_csv('Salary_Data.csv')					# Se escoje el repositorio con el que se desea trabajar
+X = dataset.iloc[:,:-1].values						# Se acomodan los valores en las columnas correspondientes a X
+y = dataset.iloc[:,1].values						# Se acomodan los valores en las columnas correspondientes a Y
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 1/3, random_state = 0)
+regressor = LinearRegression()					# la variable LinearRegressor se iguala al metodo 
+regressor.fit(X_train, y_train)	
+
+y_pred = regressor.predict(X_test)
+plt.scatter(X_train, y_train, color = 'green')					#Muestra el color de la linea 1 en color verde
+plt.plot(X_train, regressor.predict(X_train), color = 'yellow')			#Muestra el color de la linea 1 en color amarillo
+plt.show()								#Muestra la grafica 

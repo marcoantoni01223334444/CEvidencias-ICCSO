@@ -1,0 +1,53 @@
+import numpy as np							# Se importa la libreria numpy
+def polyfit1(x,y,n):							# Se define el metodo polyfit1 y se le asignan valores
+
+    def inv(A):							#Se mete la matriz
+        return np.linalg.inv(A)
+    def trans(A):
+        return A.getT()
+    def oneMat(xl,n):
+        return np.ones((xl,n),dtype=int)
+    def prod(A,B):
+        return np.dot(A,B)
+
+    xlen = len(x)	# se obtiene la longitud de la variable x
+    ylen = len(y)
+    one = np.ones((xlen,n+1),dtype=int)					# Con numpy se obtiene el valor de la operacion y se le asigna que es tipo entero
+    c1=one[:,[1]]							# Se ordenan las columnas
+    xT=np.matrix(x)
+    yT=np.matrix(y)
+    A=np.hstack([c1,xT.getT()])
+    return prod(prod(inv(prod(trans(A),A)),trans(A)),trans(yT))
+
+x=[1,1.6,3.4,4,5.2]							# Se definen los valores que tendra la matriz X
+y=[1.2,2,2.4,3.5,3.5]							# Se definen los valores que tendra la matriz Y
+
+polyfit1(x,y,1)							# se manda a llamar al metodo
+								
+def polyfit2(x,y,n):							# se aumenta el grado de ajuste hasta el nivel que se desee
+
+    def inv(A):
+        return np.linalg.inv(A)
+    def trans(A):
+        return A.getT()
+    def oneMat(xl,n):
+        return np.ones((xl,n),dtype=int)					
+    def prod(A,B):
+        return np.dot(A,B)
+
+    xlen = len(x)
+    ylen = len(y)
+    one = np.ones((xlen,n+1),dtype=int)
+    c1=one[:,[1]]
+    xT=np.matrix(x)							#Se ajusta el grado X
+    yT=np.matrix(y)							#Se ajusta el grado Y
+    c2=xT.getT()
+    c3=np.power(c2,2)
+    A=np.hstack([c1,c2,c3])						# se aumento el grado de ajuste hasta el nivel dos
+    print(A)
+    return prod(prod(inv(prod(trans(A),A)),trans(A)),trans(yT))
+
+x=[1,2,3]
+y=[1,4,9]
+
+polyfit2(x,y,2)
